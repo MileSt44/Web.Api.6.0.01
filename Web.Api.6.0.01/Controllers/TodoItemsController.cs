@@ -67,8 +67,7 @@ namespace TodoApi.Controllers
 
             return NoContent();
         }
-        // POST: api/TodoItems
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
         public async Task<ActionResult<TodoItemDTO>> CreateTodoItem(TodoItemDTO todoItemDTO)
         {
@@ -87,7 +86,7 @@ namespace TodoApi.Controllers
                 ItemToDTO(todoItem));
         }
 
-        // DELETE: api/TodoItems/5
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTodoItem(long id)
         {
