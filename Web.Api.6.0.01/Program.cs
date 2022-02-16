@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 using Microsoft.Extensions.DependencyInjection;
-using RazorPagesMovie.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
