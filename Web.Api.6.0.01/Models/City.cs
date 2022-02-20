@@ -9,6 +9,8 @@
 
     public List<Entry> Entries { get; set; }
 
+    public Country Country { get; set; }
+
 
 }
 

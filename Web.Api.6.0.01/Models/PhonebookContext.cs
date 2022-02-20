@@ -10,6 +10,6 @@ namespace PhoneBookApi.Models
         {
         }
 
-        public DbSet<City> Cities { get; set; };
+        public DbSet<City> Cities { get; set; }
     }
 }
