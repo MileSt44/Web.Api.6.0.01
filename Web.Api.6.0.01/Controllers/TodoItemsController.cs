@@ -8,9 +8,9 @@ namespace TodoApi.Controllers
     [ApiController]
     public class TodoItemsController : ControllerBase
     {
-        private readonly TodoContext _context;
+        private readonly PhonebookContext _context;
 
-        public TodoItemsController(TodoContext context)
+        public TodoItemsController(PhonebookContext context)
         {
             _context = context;
         }

@@ -1,15 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
 using Microsoft.Extensions.DependencyInjection;
+using PhoneBookApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 var app = builder.Build();
-var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<PhonebookContext>(options =>
+       options.UseSqlServer(builder.Configuration.GetConnectionString("PhonebookContext")));
 
-
-
-var app = builder.Build();
 
 
 if (builder.Environment.IsDevelopment())
