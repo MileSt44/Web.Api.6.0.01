@@ -7,6 +7,8 @@
 
     public int CountryID { get; set; }
 
+    public List<Entry> Entries { get; set; }
+
 
 }
 
