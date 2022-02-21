@@ -6,18 +6,18 @@ namespace TodoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TodoItemsController : ControllerBase
+    public class CountryController : ControllerBase
     {
         private readonly PhonebookContext _context;
 
-        public TodoItemsController(PhonebookContext context)
+        public CountryController(PhonebookContext context)
         {
             _context = context;
         }
 
         // GET: api/TodoItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PhoneBook>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<Country>>> GetTodoItems()
         {
             return await _context.TodoItems
                 .Select(x => ItemToDTO(x))
@@ -26,7 +26,7 @@ namespace TodoApi.Controllers
 
         // GET: api/TodoItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PhoneBook>> GetTodoItem(long id)
+        public async Task<ActionResult<Country>> GetTodoItem(long id)
         {
             var todoItem = await _context.TodoItems.FindAsync(id);
 
@@ -39,7 +39,7 @@ namespace TodoApi.Controllers
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTodoItem(long id, PhoneBook PhoneBook)
+        public async Task<IActionResult> UpdateTodoItem(long id, Country PhoneBook)
         {
             if (id != PhoneBook.Id)
             {
@@ -52,8 +52,8 @@ namespace TodoApi.Controllers
                 return NotFound();
             }
 
-            todoItem.Name = PhoneBook.Name;
-            todoItem.IsComplete = PhoneBook.IsComplete;
+            Country.Name = Country.Name;
+            Country.IsComplete = Country.IsComplete;
 
             try
             {
@@ -68,9 +68,9 @@ namespace TodoApi.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult<PhoneBook>> CreateTodoItem(PhoneBook PhoneBook)
+        public async Task<ActionResult<Country>> CreateTodoItem(Country PhoneBook)
         {
-            var todoItem = new PhoneBook
+            var todoItem = new Country
             {
                 IsComplete = PhoneBook.IsComplete,
                 Name = PhoneBook.Name
@@ -81,8 +81,8 @@ namespace TodoApi.Controllers
 
             return CreatedAtAction(
                 nameof(GetTodoItem),
-                new { id = todoItem.Id },
-                ItemToDTO(todoItem));
+                new { id = Country.Id },
+                ItemToDTO(Country));
         }
 
         
@@ -107,12 +107,12 @@ namespace TodoApi.Controllers
             return _context.TodoItems.Any(e => e.Id == id);
         }
 
-        private static PhoneBook ItemToDTO(PhoneBook PhoneBook) =>
-            new PhoneBook
+        private static Country ItemToDTO(Country Country) =>
+            new Country
             {
-                Id = PhoneBook.Id,
-                Name = PhoneBook.Name,
-                IsComplete = PhoneBook.IsComplete
+                ID = Country.ID,
+                CountryName = CountryName.Name,
+                CallNumber = CallNumber.IsComplete
             };
     }
 }
