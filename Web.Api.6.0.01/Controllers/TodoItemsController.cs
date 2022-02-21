@@ -17,7 +17,7 @@ namespace TodoApi.Controllers
 
         // GET: api/TodoItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<PhoneBook>>> GetTodoItems()
         {
             return await _context.TodoItems
                 .Select(x => ItemToDTO(x))
@@ -26,7 +26,7 @@ namespace TodoApi.Controllers
 
         // GET: api/TodoItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoItemDTO>> GetTodoItem(long id)
+        public async Task<ActionResult<PhoneBook>> GetTodoItem(long id)
         {
             var todoItem = await _context.TodoItems.FindAsync(id);
 
@@ -37,12 +37,11 @@ namespace TodoApi.Controllers
 
             return ItemToDTO(todoItem);
         }
-        // PUT: api/TodoItems/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTodoItem(long id, TodoItemDTO todoItemDTO)
+        public async Task<IActionResult> UpdateTodoItem(long id, PhoneBook PhoneBook)
         {
-            if (id != todoItemDTO.Id)
+            if (id != PhoneBook.Id)
             {
                 return BadRequest();
             }
@@ -53,8 +52,8 @@ namespace TodoApi.Controllers
                 return NotFound();
             }
 
-            todoItem.Name = todoItemDTO.Name;
-            todoItem.IsComplete = todoItemDTO.IsComplete;
+            todoItem.Name = PhoneBook.Name;
+            todoItem.IsComplete = PhoneBook.IsComplete;
 
             try
             {
@@ -69,15 +68,15 @@ namespace TodoApi.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult<TodoItemDTO>> CreateTodoItem(TodoItemDTO todoItemDTO)
+        public async Task<ActionResult<PhoneBook>> CreateTodoItem(PhoneBook PhoneBook)
         {
-            var todoItem = new TodoItem
+            var todoItem = new PhoneBook
             {
-                IsComplete = todoItemDTO.IsComplete,
-                Name = todoItemDTO.Name
+                IsComplete = PhoneBook.IsComplete,
+                Name = PhoneBook.Name
             };
 
-            _context.TodoItems.Add(todoItem);
+            _context.TodoItems.Add(PhoneBook);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(
@@ -108,12 +107,12 @@ namespace TodoApi.Controllers
             return _context.TodoItems.Any(e => e.Id == id);
         }
 
-        private static TodoItemDTO ItemToDTO(TodoItem todoItem) =>
-            new TodoItemDTO
+        private static PhoneBook ItemToDTO(PhoneBook PhoneBook) =>
+            new PhoneBook
             {
-                Id = todoItem.Id,
-                Name = todoItem.Name,
-                IsComplete = todoItem.IsComplete
+                Id = PhoneBook.Id,
+                Name = PhoneBook.Name,
+                IsComplete = PhoneBook.IsComplete
             };
     }
 }
