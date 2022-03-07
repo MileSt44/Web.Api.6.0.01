@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
+using PhoneBookApi.Models;
 
 namespace TodoApi.Controllers
 {
@@ -15,20 +15,20 @@ namespace TodoApi.Controllers
             _context = context;
         }
 
-        // GET: api/TodoItems
+        
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Country>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
         {
-            return await _context.TodoItems
+            return await _context.Countries
                 .Select(x => ItemToDTO(x))
                 .ToListAsync();
         }
 
-        // GET: api/TodoItems/5
+        
         [HttpGet("{id}")]
-        public async Task<ActionResult<Country>> GetTodoItem(long id)
+        public async Task<ActionResult<Country>> GetCountry(long id)
         {
-            var todoItem = await _context.TodoItems.FindAsync(id);
+            var todoItem = await _context.Countries.FindAsync(id);
 
             if (todoItem == null)
             {
@@ -39,27 +39,27 @@ namespace TodoApi.Controllers
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTodoItem(long id, Country PhoneBook)
+        public async Task<IActionResult> UpdateCountry(long id, Country country)
         {
-            if (id != PhoneBook.Id)
+            if (id != country.ID)
             {
                 return BadRequest();
             }
 
-            var todoItem = await _context.TodoItems.FindAsync(id);
-            if (todoItem == null)
+            var foundcountry = await _context.Countries.FindAsync(id);
+            if (foundcountry == null)
             {
                 return NotFound();
             }
 
-            Country.Name = Country.Name;
-            Country.IsComplete = Country.IsComplete;
+            foundcountry.CountryName = country.CountryName;
+            
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException) when (!TodoItemExists(id))
+            catch (DbUpdateConcurrencyException) when (!CountryExists(id))
             {
                 return NotFound();
             }
@@ -68,51 +68,51 @@ namespace TodoApi.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult<Country>> CreateTodoItem(Country PhoneBook)
+        public async Task<ActionResult<Country>> CreateCountry(Country country)
         {
-            var todoItem = new Country
+            var newcountry = new Country
             {
-                IsComplete = PhoneBook.IsComplete,
-                Name = PhoneBook.Name
+                
+                CountryName = country.CountryName
             };
 
-            _context.TodoItems.Add(PhoneBook);
+            _context.Countries.Add(newcountry);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(
-                nameof(GetTodoItem),
-                new { id = Country.Id },
-                ItemToDTO(Country));
+                nameof(GetCountry),
+                new { id = newcountry.ID },
+                ItemToDTO(newcountry));
         }
 
         
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTodoItem(long id)
+        public async Task<IActionResult> DeleteCountry(long id)
         {
-            var todoItem = await _context.TodoItems.FindAsync(id);
+            var oldcountry = await _context.Countries.FindAsync(id);
 
-            if (todoItem == null)
+            if (oldcountry == null)
             {
                 return NotFound();
             }
 
-            _context.TodoItems.Remove(todoItem);
+            _context.Countries.Remove(oldcountry);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool TodoItemExists(long id)
+        private bool CountryExists(long id)
         {
-            return _context.TodoItems.Any(e => e.Id == id);
+            return _context.Countries.Any(country => country.ID == id);
         }
 
-        private static Country ItemToDTO(Country Country) =>
+        private static Country ItemToDTO(Country country) =>
             new Country
             {
-                ID = Country.ID,
-                CountryName = CountryName.Name,
-                CallNumber = CallNumber.IsComplete
+                ID = country.ID,
+                CountryName = country.CountryName,
+                CallNumber = country.CallNumber
             };
     }
 }
