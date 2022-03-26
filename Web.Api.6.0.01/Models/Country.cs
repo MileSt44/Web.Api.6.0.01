@@ -7,6 +7,7 @@
 
     public List<City> Cities { get; set; }
 
-
+    return PhonebookContext.Applications
+     .Include(a => a.City.Select(c => c.CityRelationshipType));
 }
 
