@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhoneBookApi.Models;
+using Web.Api._6._0._01.Services;
 
 namespace TodoApi.Controllers
 {
@@ -8,6 +9,12 @@ namespace TodoApi.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
+        private readonly ISenderService _service;
+        public CityController(ISenderService service)
+        {
+            _service = service;
+        }
+
         private readonly PhonebookContext _context;
 
         public CityController(PhonebookContext context)
@@ -104,7 +111,7 @@ namespace TodoApi.Controllers
 
         private bool CityExists(long id)
         {
-            return _context.cities.Any(city => city.ID == id);
+            return _context.Cities.Any(city => city.ID == id);
         }
 
         private static City ItemToDTO(City city) =>
