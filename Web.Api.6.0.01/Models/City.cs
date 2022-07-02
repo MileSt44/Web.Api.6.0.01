@@ -10,8 +10,5 @@
     public List<Entry> Entries { get; set; }
 
     public Country Country { get; set; }
-
-    return PhonebookContext.Applications
-     .Include(a => a.Entry.Select(c => c.EntryRelationshipType));
 }
 

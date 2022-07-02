@@ -2,14 +2,22 @@
 {
     public interface ISenderService
     {
-        void SendEmail(string email)
+        void SendEmail(string email);
     }
 
     public class SenderService : ISenderService
     {
         public void SendEmail(string email)
         {
-            //TOODO
+            Console.WriteLine(email);
+        }
+    }
+
+    public class SenderService2 : ISenderService
+    {
+        public void SendEmail(string email)
+        {
+            Console.WriteLine("SIŠI KURAC");
         }
     }
 }

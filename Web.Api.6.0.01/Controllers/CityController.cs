@@ -10,28 +10,23 @@ namespace TodoApi.Controllers
     public class CityController : ControllerBase
     {
         private readonly ISenderService _service;
-        public CityController(ISenderService service)
+        private readonly PhonebookContext _context;
+        public CityController(ISenderService service, PhonebookContext context)
         {
             _service = service;
-        }
-
-        private readonly PhonebookContext _context;
-
-        public CityController(PhonebookContext context)
-        {
             _context = context;
         }
 
-        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<City>>> GetCities()
         {
+            _service.SendEmail("Probajemo pizdarije radit");
             return await _context.Cities
                 .Select(x => ItemToDTO(x))
                 .ToListAsync();
         }
 
-        
+
         [HttpGet("{id}")]
         public async Task<ActionResult<City>> GetCity(long id)
         {
@@ -44,7 +39,7 @@ namespace TodoApi.Controllers
 
             return ItemToDTO(todoItem);
         }
-        
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCity(long id, City city)
         {
@@ -60,7 +55,7 @@ namespace TodoApi.Controllers
             }
 
             foundcity.CityName = city.CityName;
-            
+
 
             try
             {
@@ -73,7 +68,7 @@ namespace TodoApi.Controllers
 
             return NoContent();
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<City>> CreateCity(City city)
         {
@@ -92,7 +87,7 @@ namespace TodoApi.Controllers
                 ItemToDTO(newcity));
         }
 
-        
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(long id)
         {
@@ -118,7 +113,7 @@ namespace TodoApi.Controllers
             new City
             {
                 ID = city.ID,
-             
+
             };
     }
 }

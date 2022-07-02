@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using PhoneBookApi.Models;
 using Web.Api._6._0._01.Services;
 
@@ -9,16 +8,17 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<ISenderService, SenderService>();
 
-var app = builder.Build();
 builder.Services.AddDbContext<PhonebookContext>(options =>
-       options.UseSqlServer(builder.Configuration.GetConnectionString("PhonebookContext")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PhonebookContext")));
+
+var app = builder.Build();
 
 
 
 if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    
+
 }
 
 app.UseHttpsRedirection();

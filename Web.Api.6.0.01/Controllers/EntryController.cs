@@ -15,7 +15,7 @@ namespace TodoApi.Controllers
             _context = context;
         }
 
-        
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
         {
@@ -24,7 +24,7 @@ namespace TodoApi.Controllers
                 .ToListAsync();
         }
 
-        
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Entry>> GetEntry(long id)
         {
@@ -37,11 +37,11 @@ namespace TodoApi.Controllers
 
             return ItemToDTO(todoItem);
         }
-        
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEntry(long id, Entry entry)
         {
-            if (id != entry.ID)
+            if (id != entry.PersonID)
             {
                 return BadRequest();
             }
@@ -52,8 +52,8 @@ namespace TodoApi.Controllers
                 return NotFound();
             }
 
-            foundentry.EntryName = entry.EntryName;
-            
+            foundentry.NameLastName = entry.NameLastName;
+
 
             try
             {
@@ -66,14 +66,14 @@ namespace TodoApi.Controllers
 
             return NoContent();
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<Entry>> CreateEntry(Entry entry)
         {
             var newentry = new Entry
             {
-                
-                EntryName = entry.EntryName
+
+                NameLastName = entry.NameLastName
             };
 
             _context.Entries.Add(newentry);
@@ -81,11 +81,11 @@ namespace TodoApi.Controllers
 
             return CreatedAtAction(
                 nameof(GetEntry),
-                new { id = newentry.ID },
+                new { id = newentry.PersonID },
                 ItemToDTO(newentry));
         }
 
-        
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEntry(long id)
         {
@@ -104,14 +104,14 @@ namespace TodoApi.Controllers
 
         private bool EntryExists(long id)
         {
-            return _context.Entries.Any(entry => entry.ID == id);
+            return _context.Entries.Any(entry => entry.PersonID == id);
         }
 
         private static Entry ItemToDTO(Entry entry) =>
             new Entry
             {
-                ID = entry.ID,
-             
+                PersonID = entry.PersonID,
+
             };
     }
 }
